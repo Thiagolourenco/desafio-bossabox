@@ -76,3 +76,59 @@ export const InputSearch = styled.div`
     margin-left: 5px;
   }
 `;
+
+export const List = styled.ul`
+  width: 100%;
+  padding: 0 300px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+
+  > li {
+    background: rgba(196, 196, 196, 0.5);
+    width: 100%;
+    height: 177px;
+    border-radius: 5px;
+    margin-top: 20px;
+
+    div {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 30px;
+      margin-top: 20px;
+
+      p {
+        font-size: 20px;
+      }
+
+      button {
+        background: transparent;
+        font-size: 20px;
+        border: 0;
+        margin-right: 15px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    > p {
+      font-size: 20px;
+      padding: 0 30px;
+      margin-top: 10px;
+    }
+  }
+`;
+
+export const Tags = styled.ul`
+  display: flex;
+  flex-direction: row;
+  /* justify-content: none; */
+  margin-left: 30px;
+  margin-top: 20px;
+`;
+
+export const TagsList = styled.li`
+  font-size: 18px;
+`;
