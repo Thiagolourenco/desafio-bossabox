@@ -27,10 +27,6 @@ export default createGlobalStyle`
     font: 14px 'Roboto', sans-serif;
   }
 
-  a {
-    text-decoration: none;
-  }
-
   ul {
     list-style: none;
   }

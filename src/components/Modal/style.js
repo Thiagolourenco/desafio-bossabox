@@ -45,8 +45,10 @@ export const Content = styled.div`
       margin-top: 5px;
       border: 0;
       border-radius: 5px;
+      font-size: 18px;
       height: 45px;
       background: #c4c4c4;
+      padding-left: 10px;
     }
 
     textarea {
@@ -54,6 +56,8 @@ export const Content = styled.div`
       margin-top: 5px;
       border: 0;
       border-radius: 5px;
+      padding: 10px;
+      font-size: 18px;
       background: #c4c4c4;
     }
   }

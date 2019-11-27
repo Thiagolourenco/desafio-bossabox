@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MdSearch, MdAdd, MdClose } from "react-icons/md";
 import {
   Container,
@@ -10,11 +10,32 @@ import {
   TagsList
 } from "./style";
 
+import api from "../../services/api";
+
 import Modal from "../../components/Modal";
 
 export default function Dashboard() {
+  // states de Modal
   const [visible, setVisible] = useState(false);
   const [visibleDelete, setVisibleDelete] = useState(false);
+
+  // states Inputs
+  const [data, setData] = useState([]);
+  const [title, setTitle] = useState("");
+  const [link, setLink] = useState("");
+  const [description, setDescription] = useState("");
+  const [tags, setTags] = useState([]);
+  const [search, setSearch] = useState("");
+  const [check, setCheck] = useState();
+
+  useEffect(() => {
+    async function loadTools() {
+      const response = await api.get("/tools");
+
+      setData(response.data);
+    }
+    loadTools();
+  }, []);
 
   function handleModalVisible() {
     setVisible(true);
@@ -24,64 +45,77 @@ export default function Dashboard() {
     setVisibleDelete(true);
   }
 
+  async function handleSubmit(e) {
+    e.preventDefault();
+
+    const tools = { title, link, description, tags };
+    await api
+      .post("/tools", tools)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => console.log(err));
+
+    setVisible(false);
+  }
+
+  async function handleSubmitSearch(e) {
+    e.preventDefault();
+
+    console.log(search);
+    console.log(check);
+  }
+
   return (
     <Container>
       <header>
         <p className="title">VUTTR</p>
         <p>Very Useful Tools to Remenber</p>
       </header>
-      <Search>
-        {/* <Inputs> */}
+      <Search onSubmit={handleSubmitSearch}>
         <InputSearch>
           <button>
             <MdSearch size={20} color="#000" />
           </button>
-          <input placeholder="search" />
+          <input
+            placeholder="search"
+            value={search}
+            onChange={text => setSearch(text.target.value)}
+          />
         </InputSearch>
-        <input className="check" type="checkbox" /> <p>search in tags only</p>
-        {/* </Inputs> */}
+        <input
+          className="check"
+          type="checkbox"
+          value={check}
+          onChange={text => setCheck(text.target.value)}
+        />
+        <p>search in tags only</p>
+        {/* Visualizar Modal de Adicionar Tools */}
         <ButtonAdd onClick={handleModalVisible}>
           <MdAdd size={20} color="#fff" />
           ADD
         </ButtonAdd>
       </Search>
+
+      {/* Listas das Tools */}
       <List>
-        <li>
-          <div>
-            <p>Notion</p>
-            <button onClick={handleDeleteVisible}>
-              <MdClose size={20} color="#000" />
-              Remove
-            </button>
-          </div>
-          <p>
-            Descricao asdafaf afndifnaim aisfais nijfnasif naifn asijnf aisnf
-            ainf finasfinas
-          </p>
-          <Tags>
-            <TagsList># ReactJS</TagsList>
-            <TagsList># ReactNative</TagsList>
-            <TagsList># Google</TagsList>
-          </Tags>
-        </li>
-        <li>
-          <div>
-            <p>Notion</p>
-            <button>
-              <MdClose size={20} color="#000" />
-              Remover
-            </button>
-          </div>
-          <p>
-            Descricao asdafaf afndifnaim aisfais nijfnasif naifn asijnf aisnf
-            ainf finasfinas
-          </p>
-          <Tags>
-            <TagsList># ReactJS</TagsList>
-            <TagsList># ReactNative</TagsList>
-            <TagsList># Google</TagsList>
-          </Tags>
-        </li>
+        {data.map(item => (
+          <li key={item.id}>
+            <div>
+              <a href={item.link}>{item.title}</a>
+              <button onClick={handleDeleteVisible}>
+                <MdClose size={20} color="#000" />
+                Remove
+              </button>
+            </div>
+            <p>{item.description}</p>
+            {/* <Tags>
+              {item.tags.map(tag => (
+                <TagsList key={tag}> #{tag}</TagsList>
+              ))}
+            </Tags> */}
+          </li>
+        ))}
       </List>
 
       {/* Modal */}
@@ -91,25 +125,43 @@ export default function Dashboard() {
             <MdAdd size={25} color="#000" />
             <h1>Add New Tool</h1>
           </div>
-          <label for="toolname">
-            Tool name
-            <input id="toolname" />
-          </label>
-          <label for="toolname">
-            Tool link
-            <input id="toolname" />
-          </label>
-          <label for="toolname">
-            Tool Description
-            <textarea id="toolname" />
-          </label>
-          <label for="toolname">
-            Tool tags
-            <input id="toolname" />
-          </label>
-          <div className="groupbutton">
-            <button>Add Tool</button>
-          </div>
+          <form onSubmit={handleSubmit}>
+            <label htmlFor="toolname">
+              Tool name
+              <input
+                id="toolname"
+                value={title}
+                onChange={text => setTitle(text.target.value)}
+              />
+            </label>
+            <label htmlFor="toollink">
+              Tool link
+              <input
+                id="toollink"
+                value={link}
+                onChange={text => setLink(text.target.value)}
+              />
+            </label>
+            <label htmlFor="tooldescriptio">
+              Tool Description
+              <textarea
+                id="tooldescriptio"
+                value={description}
+                onChange={text => setDescription(text.target.value)}
+              />
+            </label>
+            <label htmlFor="tooltags">
+              Tool tags
+              <input
+                id="toolags"
+                value={tags}
+                onChange={text => setTags(text.target.value)}
+              />
+            </label>
+            <div className="groupbutton">
+              <button>Add Tool</button>
+            </div>
+          </form>
         </Modal>
       )}
 

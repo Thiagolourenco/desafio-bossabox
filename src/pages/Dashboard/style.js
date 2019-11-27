@@ -26,7 +26,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Search = styled.div`
+export const Search = styled.form`
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -41,8 +41,6 @@ export const Search = styled.div`
     background: #c4c4c4;
   }
 `;
-
-export const Inputs = styled.div``;
 
 export const ButtonAdd = styled.button`
   height: 40px;
@@ -90,6 +88,7 @@ export const List = styled.ul`
     height: 177px;
     border-radius: 5px;
     margin-top: 20px;
+    margin-bottom: 10px;
 
     div {
       display: flex;
@@ -99,13 +98,13 @@ export const List = styled.ul`
       padding: 0 30px;
       margin-top: 20px;
 
-      p {
-        font-size: 20px;
+      a {
+        font-size: 18px;
       }
 
       button {
         background: transparent;
-        font-size: 20px;
+        font-size: 18px;
         border: 0;
         margin-right: 15px;
         display: flex;
@@ -114,7 +113,7 @@ export const List = styled.ul`
     }
 
     > p {
-      font-size: 20px;
+      font-size: 18px;
       padding: 0 30px;
       margin-top: 10px;
     }
