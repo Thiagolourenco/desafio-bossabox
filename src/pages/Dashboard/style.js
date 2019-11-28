@@ -26,7 +26,7 @@ export const Container = styled.div`
   }
 `;
 
-export const Search = styled.form`
+export const Search = styled.div`
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
@@ -39,6 +39,13 @@ export const Search = styled.form`
     margin-left: 8px;
     height: 21px;
     background: #c4c4c4;
+  }
+
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
   }
 `;
 

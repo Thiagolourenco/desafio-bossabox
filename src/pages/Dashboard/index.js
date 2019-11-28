@@ -25,8 +25,10 @@ export default function Dashboard() {
   const [link, setLink] = useState("");
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState([]);
+
+  // Search
   const [search, setSearch] = useState("");
-  const [check, setCheck] = useState();
+  const [check, setCheck] = useState(false);
 
   useEffect(() => {
     async function loadTools() {
@@ -41,8 +43,10 @@ export default function Dashboard() {
     setVisible(true);
   }
 
-  function handleDeleteVisible() {
+  async function handleDeleteVisible(id) {
     setVisibleDelete(true);
+
+    await api.delete(`/tools/${id}`);
   }
 
   async function handleSubmit(e) {
@@ -62,8 +66,13 @@ export default function Dashboard() {
   async function handleSubmitSearch(e) {
     e.preventDefault();
 
-    console.log(search);
-    console.log(check);
+    const response = await api.get(`/tools?q=${search}`);
+
+    setData(response.data);
+  }
+
+  function handleDelete() {
+    setVisibleDelete(false);
   }
 
   return (
@@ -72,24 +81,26 @@ export default function Dashboard() {
         <p className="title">VUTTR</p>
         <p>Very Useful Tools to Remenber</p>
       </header>
-      <Search onSubmit={handleSubmitSearch}>
-        <InputSearch>
-          <button>
-            <MdSearch size={20} color="#000" />
-          </button>
+      <Search>
+        <form onSubmit={handleSubmitSearch}>
+          <InputSearch>
+            <button>
+              <MdSearch size={20} color="#000" />
+            </button>
+            <input
+              placeholder="search"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+            />
+          </InputSearch>
           <input
-            placeholder="search"
-            value={search}
-            onChange={text => setSearch(text.target.value)}
+            className="check"
+            type="checkbox"
+            value={check}
+            onChange={e => setCheck(e.target.value)}
           />
-        </InputSearch>
-        <input
-          className="check"
-          type="checkbox"
-          value={check}
-          onChange={text => setCheck(text.target.value)}
-        />
-        <p>search in tags only</p>
+          <p>search in tags only</p>
+        </form>
         {/* Visualizar Modal de Adicionar Tools */}
         <ButtonAdd onClick={handleModalVisible}>
           <MdAdd size={20} color="#fff" />
@@ -103,12 +114,13 @@ export default function Dashboard() {
           <li key={item.id}>
             <div>
               <a href={item.link}>{item.title}</a>
-              <button onClick={handleDeleteVisible}>
+              <button onClick={() => handleDeleteVisible(item.id)}>
                 <MdClose size={20} color="#000" />
                 Remove
               </button>
             </div>
             <p>{item.description}</p>
+
             {/* <Tags>
               {item.tags.map(tag => (
                 <TagsList key={tag}> #{tag}</TagsList>
@@ -176,7 +188,7 @@ export default function Dashboard() {
           </p>
           <div className="groupbutton">
             <button className="cancel">Cancel</button>
-            <button>Yes, remove</button>
+            <button onClick={handleDelete}>Yes, remove</button>
           </div>
         </Modal>
       )}
