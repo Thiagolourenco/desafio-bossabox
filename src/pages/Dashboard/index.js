@@ -14,7 +14,7 @@ import api from "../../services/api";
 
 import Modal from "../../components/Modal";
 
-export default function Dashboard() {
+export default function Dashboard({ history }) {
   // states de Modal
   const [visible, setVisible] = useState(false);
   const [visibleDelete, setVisibleDelete] = useState(false);
@@ -37,7 +37,7 @@ export default function Dashboard() {
       setData(response.data);
     }
     loadTools();
-  }, []);
+  }, [data]);
 
   function handleModalVisible() {
     setVisible(true);
@@ -61,6 +61,9 @@ export default function Dashboard() {
       .catch(err => console.log(err));
 
     setVisible(false);
+    setTitle("");
+    setLink("");
+    setDescription("");
   }
 
   async function handleSubmitSearch(e) {
