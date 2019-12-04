@@ -28,7 +28,7 @@ export default function Dashboard({ history }) {
 
   // Search
   const [search, setSearch] = useState("");
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState();
 
   useEffect(() => {
     async function loadTools() {
@@ -37,7 +37,7 @@ export default function Dashboard({ history }) {
       setData(response.data);
     }
     loadTools();
-  }, [data]);
+  }, []);
 
   function handleModalVisible() {
     setVisible(true);
@@ -68,10 +68,13 @@ export default function Dashboard({ history }) {
 
   async function handleSubmitSearch(e) {
     e.preventDefault();
-
-    const response = await api.get(`/tools?q=${search}`);
-
-    setData(response.data);
+    if (check) {
+      const response = await api.get(`/tools?tags_like=${search}`);
+      setData(response.data);
+    } else {
+      const response = await api.get(`/tools?q=${search}`);
+      setData(response.data);
+    }
   }
 
   function handleDelete() {
@@ -99,8 +102,9 @@ export default function Dashboard({ history }) {
           <input
             className="check"
             type="checkbox"
+            checked={check}
             value={check}
-            onChange={e => setCheck(e.target.value)}
+            onChange={e => setCheck(e.target.checked)}
           />
           <p>search in tags only</p>
         </form>
@@ -124,11 +128,11 @@ export default function Dashboard({ history }) {
             </div>
             <p>{item.description}</p>
 
-            {/* <Tags>
+            <Tags>
               {item.tags.map(tag => (
                 <TagsList key={tag}> #{tag}</TagsList>
               ))}
-            </Tags> */}
+            </Tags>
           </li>
         ))}
       </List>
