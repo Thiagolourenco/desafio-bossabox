@@ -11,7 +11,7 @@
   -> Pesquisar pelo titulo dela ou pelas tags que ele desejar
   
 # INSTALAÇÂO
-* git clone 
+* git clone https://github.com/Thiagolourenco/desafio-bossabox.git
 * yarn
 * yarn start
 
