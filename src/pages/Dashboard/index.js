@@ -77,7 +77,7 @@ export default function Dashboard({ history }) {
     }
   }
 
-  function handleDelete() {
+  function handleDelete(item) {
     setVisibleDelete(false);
   }
 
@@ -194,7 +194,7 @@ export default function Dashboard({ history }) {
             Are you sure you want to remove <strong>hotel ?</strong>
           </p>
           <div className="groupbutton">
-            <button className="cancel">Cancel</button>
+            <button className="cancel" onClick={handleDelete}>Cancel</button>
             <button onClick={handleDelete}>Yes, remove</button>
           </div>
         </Modal>
