@@ -19,7 +19,7 @@
 
   = Deverá realizar o git clone do backend disponibilizado.
   
-  * git clone https://gitlab.com/bossabox/challenge-fake-ap
+  * git clone https://gitlab.com/bossabox/challenge-fake-api
   * npm install
   * npx json-server db.json
   
