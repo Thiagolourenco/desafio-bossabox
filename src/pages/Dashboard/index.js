@@ -15,7 +15,7 @@ import api from "../../services/api";
 import Modal from "../../components/Modal";
 
 export default function Dashboard({ history }) {
-  // states de Modal
+  // states de Modal //
   const [visible, setVisible] = useState(false);
   const [visibleDelete, setVisibleDelete] = useState(false);
 
